@@ -1,0 +1,52 @@
+version: '2.39'
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: poker-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    command: >
+      bash -c '
+        docker-entrypoint.sh postgres &
+        until psql -U $$POSTGRES_USER -d $$POSTGRES_DB -c "SELECT 1" > /dev/null 2>&1; do
+          sleep 1
+        done
+        psql -U $$POSTGRES_USER -d $$POSTGRES_DB -c "CREATE SCHEMA IF NOT EXISTS poker;"
+        wait
+      '
+
+  poker-backend:
+    image: ghcr.io/nishantchauhan949/poker-pocket-ts-backend:latest
+    container_name: poker-backend
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kolkata
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - PW_SECRET=${PW_SECRET}
+      - PW_REFRESH_SECRET=${PW_REFRESH_SECRET}
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+  poker-frontend:
+    image: ghcr.io/nishantchauhan949/poker-pocket-react-client:latest
+    container_name: poker-frontend
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kolkata
+    depends_on:
+      - db
+      - poker-backend
+    ports:
+      - "8001:80"

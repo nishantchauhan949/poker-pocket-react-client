@@ -1,0 +1,13 @@
+version: '2.39'
+services:
+  poker-frontend:
+    image: ghcr.io/nishantchauhan949/poker-pocket-react-client:latest
+    container_name: poker-frontend
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Kolkata
+    depends_on:
+      - db
+      - poker-backend
+    ports:
+      - "8001:80"
