@@ -1,15 +1,14 @@
 # Build Stage
 FROM node:24-alpine AS build
 
+ENV NODE_ENV=staging
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-
-RUN NODE_ENV=development npm install
+RUN npm install
 
 COPY . .
-
-ENV NODE_ENV=production
 
 RUN npm run build
 
