@@ -4,11 +4,7 @@ const localIP = window.location.hostname;
 
 const config = {
   isProduction,
-  socketURI: isProduction
-    ? 'wss://pokerpocket.nitramite.com/api'
-    : isStaging
-      ? 'wss://pokerpocket-staging.nitramite.com/api'
-      : `ws://${localIP}:8000/api`,
+  socketURI: process.env.BACKEND_SOCKET_URL || `ws://${localIP}:8000/api`,
 };
 
 export default config;
