@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "start": "craco start",
-    "build": "FAST_REFRESH=false craco build --skip-lint",
+    "build": "FAST_REFRESH=false DISABLE_ESLINT_PLUGIN=true craco build --skip-lint",
     "test": "craco test",
     "eject": "craco eject",
-    "build-staging": "NODE_ENV=staging FAST_REFRESH=false craco build"
+    "build-staging": "NODE_ENV=staging FAST_REFRESH=false DISABLE_ESLINT_PLUGIN=true craco build --skip-lint"
   },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
