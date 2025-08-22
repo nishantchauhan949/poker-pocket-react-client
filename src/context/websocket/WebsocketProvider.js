@@ -69,7 +69,6 @@ const WebSocketProvider = ({ children }) => {
   }
 
   const connect = () => {
-    console.log('REACT_APP_BACKEND_WEB_SOCKET_URL: ${process.env.REACT_APP_WS_URL}');
     console.log('Using url: ' + config.socketURI);
 
     NewWsSocket(
