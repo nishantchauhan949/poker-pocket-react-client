@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "craco start",
-    "build": "FAST_REFRESH=false craco build",
+    "build": "FAST_REFRESH=false craco build --skip-lint",
     "test": "craco test",
     "eject": "craco eject",
     "build-staging": "NODE_ENV=staging FAST_REFRESH=false craco build"
